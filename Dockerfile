@@ -13,7 +13,7 @@ RUN apt-get update && \
 
 # Download PHP source code
 RUN wget https://www.php.net/distributions/php-7.4.12.tar.gz && \
-    tar xvzf php-7.4.12.tar.gz
+    tar xvzf php-7.4.12.tar.gz -C /
 
 # Build PHP with GMP(GNU Multiple Precision) library
 WORKDIR /php-7.4.12

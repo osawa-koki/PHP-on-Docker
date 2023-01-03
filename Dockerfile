@@ -8,7 +8,8 @@ RUN apt-get update && \
     apt-get install -y build-essential && \
     apt-get install -y libgmp-dev && \
     apt-get install -y wget && \
-    apt-get install -y pkg-config
+    apt-get install -y pkg-config && \
+    apt-get update
 
 # Download PHP source code
 RUN wget https://www.php.net/distributions/php-7.4.12.tar.gz && \

@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 

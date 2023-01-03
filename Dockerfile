@@ -43,8 +43,5 @@ EXPOSE 80
 # Remove the default Apache index page
 RUN rm -f /var/www/html/index.html
 
-# Copy the built Next.js app from the build stage
-COPY --from=build-stage /app/dist /var/www/html
-
 # Start Apache when the container is launched
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]

@@ -1,35 +1,12 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
-# Set the timezone
 RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
-# Install build tools and GMP(GNU Multiple Precision) library
-RUN apt-get update && \
-    apt-get install -y build-essential && \
-    apt-get install -y libgmp-dev && \
-    apt-get install -y wget && \
-    apt-get install -y pkg-config && \
-    apt-get update
-
-# Download PHP source code
-RUN wget https://www.php.net/distributions/php-7.4.12.tar.gz && \
-    tar xvzf php-7.4.12.tar.gz -C /
-
-# Build PHP with GMP(GNU Multiple Precision) library
-WORKDIR /php-7.4.12
-RUN ./configure PKG_CONFIG=/usr/local/bin/pkg-config --enable-gmp --with-gmp && \
-    make && \
-    make install
-
-# Set PHP configuration
-COPY php.ini /usr/local/lib/php.ini
-
-# Set Apache configuration
-COPY apache2.conf /etc/apache2/apache2.conf
+# Update package manager database
+RUN apt-get update
 
 # Install Apache and PHP
-RUN apt-get update && \
-    apt-get install -y apache2 && \
+RUN apt-get install -y apache2 && \
     apt-get install -y php libapache2-mod-php
 
 # Enable Apache mod_rewrite
@@ -41,7 +18,9 @@ COPY wwwroot/ /var/www/html/
 # Expose Apache on port 80
 EXPOSE 80
 
-# Remove the default Apache index page
+RUN apt-get install -y php-gmp
+COPY php.ini /etc/php/7.4/cli/php.ini
+COPY apache2.conf /etc/apache2/apache2.conf
 RUN rm -f /var/www/html/index.html
 
 # Start Apache when the container is launched
